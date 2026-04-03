@@ -2,19 +2,20 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background-color: #1a1a1d;
 }
 
 .container {
     max-width: 800px;
-    margin: 20px auto;
+    margin: 30px auto;
     padding: 20px;
-    background-color: white;
+    background-color: #2d2d30;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
-    background-color: #722f37;
+    background-color: #c3073f;
     color: white;
     padding: 15px 20px;
     text-align: center;
@@ -29,38 +30,67 @@ body {
 
 input {
     padding: 10px;
-    width: calc(100% - 110px);
+    width: calc(100% - 115px);
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: none;
+    background-color: rgba(26, 26, 29, 0.5);
+    color: white;
     font-size: 16px;
     box-sizing: border-box;
 }
 
+input:focus, input:active, input:focus-visible {
+    border: none;
+    outline: none;
+}
+
 button {
     padding: 10px 20px;
-    background-color: #722f37;
+    background-color: #6f2232;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    margin-left: 5px;
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #5a1f25;
+    background-color: #581a27;
 }
 
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
     margin-top: 12px;
-    background-color: #f4f4f4;
+    background-color: #3e3e42;
+    color: white;
     padding: 10px;
     border-radius: 4px;
-    border-left: 5px solid #722f37;
+    border-left: 5px solid #c3073f;
+}
+
+li:first-child {
+    margin-top: 0;
+}
+
+fieldset {
+    border: 2px solid #27272c;
+    background-color: #1a1a1d;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+fieldset legend {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 0 8px;
 }
