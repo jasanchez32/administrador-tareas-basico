@@ -1,3 +1,7 @@
+const supabaseUrl = 'Escribe el ID de tu proyecto hecho en Supabase.';
+const supabaseKey = 'Escribe la key publica de tu proyecto hecho en Supabase.';
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
 const input = document.querySelector('input');
 const button = document.querySelector('button');
 const list = document.getElementById('tasks');
@@ -23,14 +27,30 @@ button.addEventListener('click', () => {
  * * @function
  * @returns {void}
  */
-function addTask() {
+async function addTask() {
     const text = input.value;
     if(text.trim() === '') return;
 
-    tasks.push(text);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    renderTasks();
+    await supabaseClient
+        .from('tasks')
+        .insert({ task: text});
+    
+    getTasks();
     input.value = '';
+}
+
+async function getTasks() {
+    const { data, error } = await supabaseClient
+        .from('tasks')
+        .select('*');
+
+    if (error) {
+        console.error('Error al obtener las tareas:', error);
+        return;
+    }
+
+    tasks = data.map(item => item.task);
+    renderTasks();
 }
 
 /** * Renders the list of tasks on the webpage.
@@ -58,3 +78,4 @@ function deleteTask() {
     renderTasks();
 }
 
+getTasks();
