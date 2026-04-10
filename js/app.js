@@ -1,34 +1,39 @@
 // Supabase configuration
-const supabaseUrl = '';
-const supabaseKey = '';
+const supabaseUrl = "";
+const supabaseKey = "";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // DOM elements
-const input = document.querySelector('input');
-const button = document.querySelector('button');
-const list = document.getElementById('tasks');
-const boxList = document.querySelector('fieldset');
+const taskInput = document.getElementById("task-input");
+const taskButton = document.getElementById("add-task-btn");
+const list = document.getElementById("tasks");
+const boxList = document.querySelector("fieldset");
 
-const registroBtn = document.getElementById('register-btn');
-const loginBtn = document.getElementById('login-btn');
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
+const registroBtn = document.getElementById("register-btn");
+const loginBtn = document.getElementById("login-btn");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
 let tasks = [];
 
-
 // Event listeners
-button.addEventListener('click', () => {
+if (taskButton) {
+  taskButton.addEventListener("click", () => {
     addTask();
-});
+  });
+}
 
-registroBtn.addEventListener("click", () => {
+if (registroBtn) {
+  registroBtn.addEventListener("click", () => {
     register();
-});
+  });
+}
 
-loginBtn.addEventListener("click", () => {
+if (loginBtn) {
+  loginBtn.addEventListener("click", () => {
     login();
-});
+  });
+}
 
 /**
  * Adds a new task to the task list.
@@ -38,22 +43,20 @@ loginBtn.addEventListener("click", () => {
  * @returns {void}
  */
 async function addTask() {
-    const user = await getUser();
-    const text = input.value;
+  const user = await getUser();
+  const text = taskInput.value;
 
-    if(!user) {
-        alert("Debes iniciar sesión para agregar tareas.");
-        return;
-    }
+  if (!user) {
+    alert("Debes iniciar sesión para agregar tareas.");
+    return;
+  }
 
-    if(text.trim() === '') return;
+  if (text.trim() === "") return;
 
-    await supabaseClient
-        .from('tasks')
-        .insert({ task: text, user_id: user.id });
+  await supabaseClient.from("tasks").insert({ task: text, user_id: user.id });
 
-    getTasks();
-    input.value = '';
+  getTasks();
+  taskInput.value = "";
 }
 
 /**
@@ -63,31 +66,31 @@ async function addTask() {
  * @returns {Promise<void>}
  */
 async function getTasks() {
-    const user = await getUser();
+  const user = await getUser();
 
-    if(!user) {
-        alert("Debes iniciar sesión para agregar tareas.");
-        return;
-    }
+  if (!user) {
+    alert("Debes iniciar sesión para agregar tareas.");
+    return;
+  }
 
-    const { data, error } = await supabaseClient
-        .from('tasks')
-        .select('*')
-        .eq("user_id", user.id);
+  const { data, error } = await supabaseClient
+    .from("tasks")
+    .select("*")
+    .eq("user_id", user.id);
 
-    if (error) {
-        console.error('Error al obtener las tareas:', error);
-        return;
-    }
+  if (error) {
+    console.error("Error al obtener las tareas:", error);
+    return;
+  }
 
-    tasks = data;
-    
-    if (tasks.length === 0) {
-        boxList.style.display = 'none';
-        return;
-    }
+  tasks = data;
 
-    renderTasks();
+  if (tasks.length === 0) {
+    boxList.style.display = "none";
+    return;
+  }
+
+  renderTasks();
 }
 
 /**
@@ -97,15 +100,15 @@ async function getTasks() {
  * @returns {void}
  */
 function renderTasks() {
-    list.innerHTML = '';
+  list.innerHTML = "";
 
-    tasks.forEach(task => {
-        const listItem = document.createElement('li');
-        listItem.textContent = task.task;
-        list.appendChild(listItem);
-    });
+  tasks.forEach((task) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = task.task;
+    list.appendChild(listItem);
+  });
 
-    boxList.style.display = 'block';
+  boxList.style.display = "block";
 }
 
 /**
@@ -115,8 +118,8 @@ function renderTasks() {
  * @returns {void}
  */
 function deleteTask() {
-    tasks.pop();
-    renderTasks();
+  tasks.pop();
+  renderTasks();
 }
 
 /**
@@ -126,20 +129,21 @@ function deleteTask() {
  * @returns {Promise<void>}
  */
 async function register() {
-    const email = emailInput.value;
-    const password = passwordInput.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
 
-    const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-    });
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+  });
 
-    if(error) {
-        console.error("Error al registrarse:", error);
-        return;
-    }
+  if (error) {
+    console.error("Error al registrarse:", error);
+    return;
+  }
 
-    console.log("Usuario registrado:", data);
+  console.log("Usuario registrado:", data);
+  window.location.href = "index.html";
 }
 
 /**
@@ -149,21 +153,23 @@ async function register() {
  * @returns {Promise<void>}
  */
 async function login() {
-    const email = emailInput.value;
-    const password = passwordInput.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password,
-    });
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-    if(error) {
-        console.error("Error al iniciar sesión:", error);
-        return;
-    }
+  if (error) {
+    console.error("Error al iniciar sesión:", error);
+    return;
+  }
 
-    console.log("Usuario logueado:", data);
-    getTasks();
+  console.log("Usuario logueado:", data);
+
+  window.location.href = "index.html";
+  getTasks();
 }
 
 /**
@@ -173,16 +179,19 @@ async function login() {
  * @returns {Promise<Object|null>} The user object or null if not authenticated.
  */
 async function getUser() {
-    const { data: { user }, error } = await supabaseClient.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabaseClient.auth.getUser();
 
-    if(error) {
-        if(error.name !== "AuthSessionMissingError") {
-            console.error("Error al obtener el usuario:", error);
-        }
-        return null;
+  if (error) {
+    if (error.name !== "AuthSessionMissingError") {
+      console.error("Error al obtener el usuario:", error);
     }
+    return null;
+  }
 
-    return user;
+  return user;
 }
 
 getTasks();

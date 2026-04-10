@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administrador de tareas</title>
+
+    <!-- Iconos de google material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/loginRegister.css" />
+  </head>
+  <body>
+    <div class="containerAuth">
+      <div class="card-form">
+        <div class="auth-note">
+          <h2>.: Accede a tu cuenta :.</h2>
+          <p>
+            ¿Aún no tienes una cuenta?
+            <a href="register.html">Regístrate</a>
+          </p>
+        </div>
+
+        <div class="auth-form">
+          <div class="input-group">
+            <span class="material-icons"> mail </span>
+            <input type="email" id="email" placeholder="Correo" />
+          </div>
+
+          <div class="input-group">
+            <span class="material-icons"> lock </span>
+            <input type="password" id="password" placeholder="Contraseña" />
+          </div>
+
+          <button id="login-btn">Iniciar Sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

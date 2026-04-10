@@ -2,16 +2,18 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #1a1a1d;
+    background-color: #0f0f0f;
 }
 
 .container {
     max-width: 800px;
+    width: 100%;
     margin: 30px auto;
-    padding: 20px;
-    background-color: #2d2d30;
+    padding: 25px;
+    background-color: #181818;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .navbar {
@@ -32,21 +34,22 @@ input {
     padding: 10px;
     width: calc(100% - 115px);
     border-radius: 4px;
-    border: none;
-    background-color: rgba(26, 26, 29, 0.5);
+    border: 1px solid rgba(17, 17, 17, 1);
+    background-color: rgba(17, 17, 17, 1);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
     color: white;
     font-size: 16px;
     box-sizing: border-box;
 }
 
 input:focus, input:active, input:focus-visible {
-    border: none;
+    border-color: #c3073f;
     outline: none;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #6f2232;
+    background-color: #c3073f;
     color: white;
     border: none;
     border-radius: 4px;
@@ -58,7 +61,7 @@ button {
 }
 
 button:hover {
-    background-color: #581a27;
+    background-color: #6f2232;
 }
 
 ul {
@@ -69,11 +72,12 @@ ul {
 
 li {
     margin-top: 12px;
-    background-color: #3e3e42;
+    background-color: #1e1e1e;
     color: white;
     padding: 10px;
     border-radius: 4px;
     border-left: 5px solid #c3073f;
+    box-shadow: 0 3px 3px rgba(255, 255, 255, 0.08);
 }
 
 li:first-child {
@@ -82,7 +86,7 @@ li:first-child {
 
 fieldset {
     border: 2px solid #27272c;
-    background-color: #1a1a1d;
+    background-color: rgba(15, 15, 15, .3);
     border-radius: 8px;
     padding: 20px;
     margin-top: 20px;
