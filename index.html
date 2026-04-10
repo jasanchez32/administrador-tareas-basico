@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador de tareas</title>
+
+    <!-- Iconos de google material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <nav class="navbar">
         <h1 class="navbar-title">Administrador de tareas</h1>
+
+        <ul>
+            <li>
+                <a href="">
+                    <span class="material-icons"> logout </span>
+                    <span>Cerrar sesión</span>
+                </a>
+            </li>
+        </ul>
     </nav>
 
     <div class="container">
@@ -17,7 +30,7 @@
         
         <fieldset>
             <legend>Tareas</legend>
-            <ul id="tasks"></ul>
+            <ul id="tasks" class="tasks"></ul>
         </fieldset>
     </div>
     
