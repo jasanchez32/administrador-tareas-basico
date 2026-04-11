@@ -63,7 +63,7 @@
 
 .auth-form input::placeholder,
 .auth-form .material-icons {
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(138, 138, 138, 0.4);
 }
 
 .auth-form button {

@@ -51,7 +51,10 @@ async function addTask() {
     return;
   }
 
-  if (text.trim() === "") return;
+  if (text.trim() === "") {
+    alert("Por favor ingresa una tarea antes de continuar.");
+    return;
+  }
 
   await supabaseClient.from("tasks").insert({ task: text, user_id: user.id });
 
@@ -79,7 +82,7 @@ async function getTasks() {
     .eq("user_id", user.id);
 
   if (error) {
-    console.error("Error al obtener las tareas:", error);
+    alert("Error al obtener las tareas: " + error.message);
     return;
   }
 
@@ -132,13 +135,20 @@ async function register() {
   const email = emailInput.value;
   const password = passwordInput.value;
 
+  const validationError = validateCredentials(email.trim(), password.trim());
+
+  if (validationError) {
+    alert(validationError);
+    return;
+  }
+
   const { data, error } = await supabaseClient.auth.signUp({
     email,
     password,
   });
 
   if (error) {
-    console.error("Error al registrarse:", error);
+    alert("Error al registrarse: " + error.message);
     return;
   }
 
@@ -156,20 +166,55 @@ async function login() {
   const email = emailInput.value;
   const password = passwordInput.value;
 
+  const validationError = validateCredentials(email.trim(), password.trim());
+
+  if (validationError) {
+    alert(validationError);
+    return;
+  }
+
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password,
   });
 
   if (error) {
-    console.error("Error al iniciar sesión:", error);
+    alert("Error al iniciar sesión: " + error.message);
     return;
   }
 
   console.log("Usuario logueado:", data);
-
   window.location.href = "index.html";
-  getTasks();
+}
+
+/**
+ * Validates form credentials for email and password.
+ * @param {string} email
+ * @param {string} password
+ * @returns {string|null} Validation error message or null if valid.
+ */
+function validateCredentials(email, password) {
+  if (!email && !password) {
+    return "Debes ingresar tu correo y tu contraseña.";
+  }
+
+  if (!email) {
+    return "Debes ingresar tu correo.";
+  }
+
+  if (!password) {
+    return "Debes ingresar tu contraseña.";
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return "Ingresa un correo válido.";
+  }
+
+  if (password.length < 6) {
+    return "La contraseña debe tener al menos 6 caracteres.";
+  }
+
+  return null;
 }
 
 /**
@@ -186,7 +231,7 @@ async function getUser() {
 
   if (error) {
     if (error.name !== "AuthSessionMissingError") {
-      console.error("Error al obtener el usuario:", error);
+      console.error("Error al obtener el usuario:", error.message);
     }
     return null;
   }
