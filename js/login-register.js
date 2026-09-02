@@ -1,7 +1,6 @@
 // Supabase configuration
-const supabaseUrl = "https://bevoewgoffuwjmycsfea.supabase.co";
-const supabaseKey =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJldm9ld2dvZmZ1d2pteWNzZmVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1MTQzODEsImV4cCI6MjA5MTA5MDM4MX0.N3lIv3nTZwe4Fl-_SXbYi3d-jcsORhFnucNYifJN2n8";
+const supabaseUrl = "URL Database - Supabase";
+const supabaseKey = "Key Database  - Supabase";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 const registroBtn = document.getElementById("register-btn");
