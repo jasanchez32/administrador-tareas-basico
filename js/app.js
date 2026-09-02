@@ -1,6 +1,6 @@
 // Supabase configuration
-const supabaseUrl = "";
-const supabaseKey = "";
+const supabaseUrl = "URL Database - Supabase";
+const supabaseKey = "Key Database  - Supabase";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // DOM elements
@@ -9,10 +9,7 @@ const taskButton = document.getElementById("add-task-btn");
 const list = document.getElementById("tasks");
 const boxList = document.querySelector("fieldset");
 
-const registroBtn = document.getElementById("register-btn");
-const loginBtn = document.getElementById("login-btn");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const logoutBtn = document.getElementById("logout-btn");
 
 let tasks = [];
 
@@ -23,15 +20,12 @@ if (taskButton) {
   });
 }
 
-if (registroBtn) {
-  registroBtn.addEventListener("click", () => {
-    register();
-  });
-}
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async () => {
+    if (!confirm("¿Cerrar sesión?")) return;
 
-if (loginBtn) {
-  loginBtn.addEventListener("click", () => {
-    login();
+    await supabaseClient.auth.signOut();
+    window.location.href = "login.html";
   });
 }
 
@@ -108,7 +102,15 @@ function renderTasks() {
   tasks.forEach((task) => {
     const listItem = document.createElement("li");
     listItem.textContent = task.task;
-    list.appendChild(listItem);
+    list.appendChild(listItem); // append button to list item
+
+    const deleteBtn = document.createElement("button"); // Create button
+    deleteBtn.id = "delete-button";
+    deleteBtn.textContent = "X"; // Text of button
+    deleteBtn.addEventListener("click", () => {
+      deleteTask(task.id);
+    });
+    listItem.appendChild(deleteBtn);
   });
 
   boxList.style.display = "block";
@@ -120,101 +122,17 @@ function renderTasks() {
  * @function
  * @returns {void}
  */
-function deleteTask() {
-  tasks.pop();
-  renderTasks();
-}
+async function deleteTask(id) {
+  if (!confirm("¿Eliminar tarea?")) return;
 
-/**
- * Registers a new user with email and password.
- * @async
- * @function
- * @returns {Promise<void>}
- */
-async function register() {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-
-  const validationError = validateCredentials(email.trim(), password.trim());
-
-  if (validationError) {
-    alert(validationError);
-    return;
-  }
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-  });
+  const { error } = await supabaseClient.from("tasks").delete().eq("id", id);
 
   if (error) {
-    alert("Error al registrarse: " + error.message);
+    alert("Error al eliminar la tarea: " + error.message);
     return;
   }
 
-  console.log("Usuario registrado:", data);
-  window.location.href = "index.html";
-}
-
-/**
- * Logs in a user with email and password.
- * @async
- * @function
- * @returns {Promise<void>}
- */
-async function login() {
-  const email = emailInput.value;
-  const password = passwordInput.value;
-
-  const validationError = validateCredentials(email.trim(), password.trim());
-
-  if (validationError) {
-    alert(validationError);
-    return;
-  }
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) {
-    alert("Error al iniciar sesión: " + error.message);
-    return;
-  }
-
-  console.log("Usuario logueado:", data);
-  window.location.href = "index.html";
-}
-
-/**
- * Validates form credentials for email and password.
- * @param {string} email
- * @param {string} password
- * @returns {string|null} Validation error message or null if valid.
- */
-function validateCredentials(email, password) {
-  if (!email && !password) {
-    return "Debes ingresar tu correo y tu contraseña.";
-  }
-
-  if (!email) {
-    return "Debes ingresar tu correo.";
-  }
-
-  if (!password) {
-    return "Debes ingresar tu contraseña.";
-  }
-
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return "Ingresa un correo válido.";
-  }
-
-  if (password.length < 6) {
-    return "La contraseña debe tener al menos 6 caracteres.";
-  }
-
-  return null;
+  getTasks();
 }
 
 /**

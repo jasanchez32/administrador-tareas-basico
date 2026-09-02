@@ -124,6 +124,26 @@ ul.tasks {
     padding: 10px;
     border-radius: 4px;
     border-left: 5px solid #c3073f;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Styles for delete button added by assistant */
+#delete-button {
+    background-color: #b21f3b;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+#delete-button:hover {
+    background-color: #6f2232;
 }
 
 .tasks li:first-child {
